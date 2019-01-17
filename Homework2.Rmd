@@ -1,0 +1,43 @@
+---
+title: "Homework2"
+output: html_document
+---
+
+
+## R Markdown
+
+#Using Base R to find the closest signal
+#First make a dataframe from the file. The closest column added to store the data
+#This script is successful 
+```{r}
+a <- data.frame("value" = c (0,0,1,0,0,0,0,1,1,0,0,0,0,0),
+                "closest"= c(1:14 ))
+for (i in 1:length(a$value))
+{if (a$value[i] == 1)
+{a$closest[i] <- (i)}
+  else for (j in 1:length(a$value))
+  {if (a$value[i+j]==1 && i+j<length(a$value))
+    {a$closest[i] <- i+j; break} 
+    else if (a$value[i-j]==1 && i-j>1)
+    {a$closest[i] <- (i-j); break}}} 
+```
+
+
+#Using tidyverse to find the closest signal
+#I plan to add multiple columns but so far I don't know how to generate the final output.
+#This is not complete
+```{r}
+ptm <- proc.time()
+a <- data.frame("value" = c (0,0,1,0,0,0,0,1,1,0,0,0,0,0),
+                "closest"= c(1:14 ))
+
+b <- data.frame(matrix(NA, nrow = 14, ncol = 14))
+for (i in 1:length(a$value))
+{b[,i] <-lead(a$value, i,default=NA)
+  } 
+
+c <- data.frame(matrix(NA, nrow = 14, ncol = 14))
+for (i in 1:length(a$value))
+{c[,i] <-lag(a$value, i,default=NA)
+} 
+```
